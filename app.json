@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "zquiz-mobile-app",
-    "slug": "zquiz-mobile-app",
+    "name": "quizzat-mobile-app",
+    "slug": "quizzat-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
