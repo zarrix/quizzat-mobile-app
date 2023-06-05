@@ -1,40 +1,64 @@
 import { StyleSheet, View, Text, Alert, SafeAreaView } from "react-native";
 import Button from "../components/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Ionicons } from "@expo/vector-icons";
 import quizApi from "../api/quizApi";
 import QuizQuestion from "../components/QuizQuestion";
-
-const answers = ["Soufiane", "Soufiane Zarrouki", "Zarrouki"];
+import ProgressBar from "../components/ProgressBar";
 
 export default function QuizPage() {
   const questions = quizApi.getQuizQuestions();
   const [level, setLevel] = useState(0);
 
-  useEffect(() => {
-    console.log(level);
-  }, [level]);
+  const [answer, setAnswer] = useState("");
+  const [shouldShowAnswer, setShouldShowAnswer] = useState(false);
+
+  const progress = ((level + 1) / questions.length) * 100;
 
   const goToNextQuestion = () => {
-    Alert.alert("success");
-    if (level < questions.length - 1) setLevel((level) => level + 1);
+    if (level < questions.length - 1) {
+      setLevel((level) => level + 1);
+      setAnswer("");
+      setShouldShowAnswer(false);
+    }
+  };
+
+  const checkAnswer = () => {
+    setShouldShowAnswer(true);
   };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#9A78FF", flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.title}>Level {level}</Text>
+        <ProgressBar progress={progress} />
 
-        <QuizQuestion question={questions[level]} />
+        <QuizQuestion
+          question={questions[level]}
+          onAnswerSelect={(answer: string) => setAnswer(answer)}
+          answer={answer}
+          showCorrectAnswer={shouldShowAnswer}
+        />
 
         <View style={styles.actions}>
-          <Button style={styles.action} onClick={() => Alert.alert("next")}>
-            <Ionicons name="arrow-back" size={40} color="white" />
-          </Button>
-          <Button style={styles.action} onClick={goToNextQuestion}>
-            <Ionicons name="arrow-forward" size={40} color="white" />
-          </Button>
+          {!shouldShowAnswer ? (
+            <Button
+              style={[styles.action, styles.check_action]}
+              onClick={checkAnswer}
+            >
+              <Text style={styles.action_title}>Check</Text>
+              <Ionicons name="information-circle" size={40} color="white" />
+            </Button>
+          ) : (
+            <Button
+              style={[styles.action, styles.next_action]}
+              onClick={goToNextQuestion}
+            >
+              <Text style={styles.action_title}>Next</Text>
+              <Ionicons name="arrow-forward" size={40} color="white" />
+            </Button>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -90,23 +114,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#87CEFA",
   },
   actions: {
-    display: "flex",
     width: "100%",
-    flexDirection: "row",
-    gap: 10,
-    justifyContent: "space-between",
+    display: "flex",
+    justifyContent: "center",
   },
   action: {
-    backgroundColor: "#FFA78F",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 10,
+    columnGap: 20,
     padding: 10,
   },
-  button: {
-    marginBottom: 30,
-    width: 260,
-    alignItems: "center",
-    backgroundColor: "#9A78FF",
-    padding: 20,
-    borderRadius: 4,
+  check_action: {
+    backgroundColor: "#87CEFA",
+  },
+  next_action: {
+    backgroundColor: "#FFA78F",
+  },
+  action_title: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "white",
   },
 });

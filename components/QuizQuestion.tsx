@@ -1,22 +1,24 @@
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Button from "../components/Button";
-import { useState } from "react";
-
-import { Ionicons } from "@expo/vector-icons";
 import { Question } from "../api/quizApi";
 
 type Props = {
   question: Question;
+  answer: string;
+  onAnswerSelect: (answer: string) => void;
+  showCorrectAnswer: boolean;
 };
 
-export default function QuizQuestion({ question }: Props) {
-  const [answer, setAnswer] = useState("");
+export default function QuizQuestion({
+  question,
+  answer,
+  onAnswerSelect,
+  showCorrectAnswer,
+}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.question_container}>
-        <Text style={styles.question}>
-          {question.question}
-        </Text>
+        <Text style={styles.question}>{question.question}</Text>
       </View>
       <View style={styles.answers_container}>
         {question.answers.map((ans, index) => (
@@ -25,8 +27,11 @@ export default function QuizQuestion({ question }: Props) {
             style={[
               styles.answer,
               ans.answer === answer ? styles.selected_answer : undefined,
+              ans.isCorrect && showCorrectAnswer
+                ? styles.correct_answer
+                : undefined,
             ]}
-            onClick={() => setAnswer(ans.answer)}
+            onClick={() => onAnswerSelect(ans.answer)}
           >
             <Text style={{ fontWeight: "700", fontSize: 18 }}>
               {index + 1}. {ans.answer}
@@ -45,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-around",
-    width: '100%'
+    width: "100%",
   },
   question_container: {
     minHeight: "30%",
@@ -78,24 +83,7 @@ const styles = StyleSheet.create({
   selected_answer: {
     backgroundColor: "#87CEFA",
   },
-  actions: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "row",
-    gap: 10,
-    justifyContent: "space-between",
-  },
-  action: {
-    backgroundColor: "#FFA78F",
-    borderRadius: 10,
-    padding: 10,
-  },
-  button: {
-    marginBottom: 30,
-    width: 260,
-    alignItems: "center",
-    backgroundColor: "#9A78FF",
-    padding: 20,
-    borderRadius: 4,
+  correct_answer: {
+    backgroundColor: "#78FF9A",
   },
 });

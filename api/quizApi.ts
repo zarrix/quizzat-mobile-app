@@ -47,7 +47,7 @@ const questions: Question[] = [
       },
       {
         answer: "Voice",
-        isCorrect: true,
+        isCorrect: false,
       },
     ],
   },
@@ -68,7 +68,7 @@ const questions: Question[] = [
       },
       {
         answer: "Leg",
-        isCorrect: true,
+        isCorrect: false,
       },
     ],
   },
