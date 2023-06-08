@@ -7,6 +7,7 @@ type Props = {
   answer: string;
   onAnswerSelect: (answer: string) => void;
   showCorrectAnswer: boolean;
+  disableSelect: boolean;
 };
 
 export default function QuizQuestion({
@@ -14,6 +15,7 @@ export default function QuizQuestion({
   answer,
   onAnswerSelect,
   showCorrectAnswer,
+  disableSelect
 }: Props) {
   return (
     <View style={styles.container}>
@@ -23,6 +25,7 @@ export default function QuizQuestion({
       <View style={styles.answers_container}>
         {question.answers.map((ans, index) => (
           <Button
+            disabled={disableSelect}
             key={index}
             style={[
               styles.answer,

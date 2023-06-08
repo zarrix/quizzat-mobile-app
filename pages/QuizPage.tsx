@@ -6,26 +6,40 @@ import { Ionicons } from "@expo/vector-icons";
 import quizApi from "../api/quizApi";
 import QuizQuestion from "../components/QuizQuestion";
 import ProgressBar from "../components/ProgressBar";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppStackParamList } from "../App";
 
-export default function QuizPage() {
+export default function QuizPage({
+  navigation,
+}: NativeStackScreenProps<AppStackParamList>) {
   const questions = quizApi.getQuizQuestions();
   const [level, setLevel] = useState(0);
 
   const [answer, setAnswer] = useState("");
   const [shouldShowAnswer, setShouldShowAnswer] = useState(false);
 
+  const [score, setScore] = useState(0);
+  const [disableAnswer, setDisableAnswer] = useState(false);
+
   const progress = ((level + 1) / questions.length) * 100;
 
   const goToNextQuestion = () => {
+    setDisableAnswer(false);
     if (level < questions.length - 1) {
       setLevel((level) => level + 1);
       setAnswer("");
       setShouldShowAnswer(false);
+    } else if (level === questions.length - 1) {
+      Alert.alert("Bravo!", `You scored ${(score / questions.length) * 100}%`, [{text: "OK", onPress: () => navigation.navigate("Home")}]);
     }
   };
 
   const checkAnswer = () => {
+    setDisableAnswer(true);
     setShouldShowAnswer(true);
+    if (answer === questions[level].answers.find((v) => v.isCorrect)?.answer) {
+      setScore((score) => score + 1);
+    }
   };
 
   return (
@@ -39,6 +53,7 @@ export default function QuizPage() {
           onAnswerSelect={(answer: string) => setAnswer(answer)}
           answer={answer}
           showCorrectAnswer={shouldShowAnswer}
+          disableSelect={disableAnswer}
         />
 
         <View style={styles.actions}>
