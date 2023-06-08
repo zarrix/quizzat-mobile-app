@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
-import Button from "../components/Button";
+import Button from "./Button";
 import { Question } from "../api/quizApi";
 
 type Props = {

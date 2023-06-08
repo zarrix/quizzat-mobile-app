@@ -7,7 +7,7 @@ import quizApi from "../api/quizApi";
 import QuizQuestion from "../components/QuizQuestion";
 import ProgressBar from "../components/ProgressBar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppStackParamList } from "../App";
+import { AppStackParamList } from "../../App";
 
 export default function QuizPage({
   navigation,

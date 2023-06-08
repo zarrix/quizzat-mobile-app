@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Button from "../components/Button";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppStackParamList } from "../App";
+import { AppStackParamList } from "../../App";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -16,7 +16,7 @@ export default function Home({
   navigation,
 }: NativeStackScreenProps<AppStackParamList>) {
   const gotoQuizPage = () => {
-    navigation.navigate("QuizPage");
+    navigation.navigate("QuizList");
   };
 
   return (
@@ -24,7 +24,7 @@ export default function Home({
       <View style={styles.container}>
         <Image
           style={styles.app_image}
-          source={require("../assets/question_mark.png")}
+          source={require("../../assets/question_mark.png")}
         />
 
         <View>

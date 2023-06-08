@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export type Answer = {
   answer: string;
   isCorrect: boolean;
@@ -6,6 +8,17 @@ export type Answer = {
 export type Question = {
   question: string;
   answers: Answer[];
+};
+
+export type QuizDifficulty = 'easy' | 'medium' | 'hard'
+
+export type QuizQuestion = {
+  category: string;
+  type: string;
+  difficulty: QuizDifficulty;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
 };
 
 const questions: Question[] = [
@@ -75,7 +88,23 @@ const questions: Question[] = [
 ];
 
 const quizApi = {
-    getQuizQuestions: () => questions,
-}
+  getQuizQuestions: () => questions,
+  getQuizQuestionsByCategoryId: async (
+    categoryId: number,
+    amount: number = 10,
+    difficulty: QuizDifficulty = "easy",
+    type: string = "multiple"
+  ) => {
+    const response = await axios.get("https://opentdb.com/api.php", {
+      params: {
+        categoryId,
+        amount,
+        difficulty,
+        type,
+      },
+    });
+    return response.data;
+  },
+};
 
 export default quizApi;
