@@ -44,6 +44,33 @@ export default function QuizList({
                 navigation.navigate("QuizPage", { categoryId: 27 })
               }
             />
+            <QuizCard
+              title={"Science"}
+              image={require("../../assets/science_nature.png")}
+              questionsLength={10}
+              difficulty={"easy"}
+              onClick={() =>
+                navigation.navigate("QuizPage", { categoryId: 17 })
+              }
+            />
+            <QuizCard
+              title={"Geography"}
+              image={require("../../assets/geography.png")}
+              questionsLength={10}
+              difficulty={"easy"}
+              onClick={() =>
+                navigation.navigate("QuizPage", { categoryId: 22 })
+              }
+            />
+            <QuizCard
+              title={"History"}
+              image={require("../../assets/history.png")}
+              questionsLength={10}
+              difficulty={"easy"}
+              onClick={() =>
+                navigation.navigate("QuizPage", { categoryId: 23 })
+              }
+            />
           </View>
         </View>
       </ScrollView>

@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   image: {
     width: 120,
     height: 120,
+    resizeMode: "contain"
   },
   title: {
     fontWeight: "700",

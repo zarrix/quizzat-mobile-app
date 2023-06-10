@@ -11,11 +11,6 @@ export type Question = {
   incorrect_answers: string[];
 };
 
-axios.interceptors.request.use(request => {
-  console.log('Starting Request', JSON.stringify(request, null, 2))
-  return request
-})
-
 const quizApi = {
   getQuizQuestionsByCategoryId: async (
     categoryId: number,
