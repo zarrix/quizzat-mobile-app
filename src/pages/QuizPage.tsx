@@ -1,18 +1,22 @@
 import { StyleSheet, View, Text, Alert, SafeAreaView } from "react-native";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Ionicons } from "@expo/vector-icons";
-import quizApi from "../api/quizApi";
+import quizApi, { Question } from "../api/quizApi";
 import QuizQuestion from "../components/QuizQuestion";
 import ProgressBar from "../components/ProgressBar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../App";
+import Loading from "../components/Loading";
 
 export default function QuizPage({
+  route,
   navigation,
 }: NativeStackScreenProps<AppStackParamList>) {
-  const questions = quizApi.getQuizQuestions();
+  const { categoryId } = route.params as {categoryId: number};
+
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [level, setLevel] = useState(0);
 
   const [answer, setAnswer] = useState("");
@@ -30,17 +34,34 @@ export default function QuizPage({
       setAnswer("");
       setShouldShowAnswer(false);
     } else if (level === questions.length - 1) {
-      Alert.alert("Bravo!", `You scored ${(score / questions.length) * 100}%`, [{text: "OK", onPress: () => navigation.navigate("Home")}]);
+      Alert.alert("Bravo!", `You scored ${(score / questions.length) * 100}%`, [
+        { text: "OK", onPress: () => navigation.navigate("QuizList") },
+      ]);
     }
   };
 
   const checkAnswer = () => {
     setDisableAnswer(true);
     setShouldShowAnswer(true);
-    if (answer === questions[level].answers.find((v) => v.isCorrect)?.answer) {
+    if (answer === questions[level].correct_answer) {
       setScore((score) => score + 1);
     }
   };
+
+  useEffect(() => {
+    quizApi
+      .getQuizQuestionsByCategoryId(categoryId)
+      .then((response) => {
+        setQuestions(response);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  if (questions.length === 0) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <SafeAreaView style={{ backgroundColor: "#9A78FF", flex: 1 }}>

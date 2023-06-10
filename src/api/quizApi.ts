@@ -1,18 +1,8 @@
 import axios from "axios";
 
-export type Answer = {
-  answer: string;
-  isCorrect: boolean;
-};
-
-export type Question = {
-  question: string;
-  answers: Answer[];
-};
-
 export type QuizDifficulty = 'easy' | 'medium' | 'hard'
 
-export type QuizQuestion = {
+export type Question = {
   category: string;
   type: string;
   difficulty: QuizDifficulty;
@@ -21,89 +11,27 @@ export type QuizQuestion = {
   incorrect_answers: string[];
 };
 
-const questions: Question[] = [
-  {
-    question: "David's father has three sons: Snap, Crackle, and _____?",
-    answers: [
-      {
-        answer: "Snap",
-        isCorrect: false,
-      },
-      {
-        answer: "Crackle",
-        isCorrect: false,
-      },
-      {
-        answer: "John",
-        isCorrect: false,
-      },
-      {
-        answer: "David",
-        isCorrect: true,
-      },
-    ],
-  },
-  {
-    question: "It belongs to you, but your friends use it more. What is it?",
-    answers: [
-      {
-        answer: "Name",
-        isCorrect: true,
-      },
-      {
-        answer: "Pen",
-        isCorrect: false,
-      },
-      {
-        answer: "Clothes",
-        isCorrect: false,
-      },
-      {
-        answer: "Voice",
-        isCorrect: false,
-      },
-    ],
-  },
-  {
-    question: "If you don't keep me, I'll break. What am I?",
-    answers: [
-      {
-        answer: "Promise",
-        isCorrect: true,
-      },
-      {
-        answer: "Glass",
-        isCorrect: false,
-      },
-      {
-        answer: "Car",
-        isCorrect: false,
-      },
-      {
-        answer: "Leg",
-        isCorrect: false,
-      },
-    ],
-  },
-];
+axios.interceptors.request.use(request => {
+  console.log('Starting Request', JSON.stringify(request, null, 2))
+  return request
+})
 
 const quizApi = {
-  getQuizQuestions: () => questions,
   getQuizQuestionsByCategoryId: async (
     categoryId: number,
     amount: number = 10,
     difficulty: QuizDifficulty = "easy",
     type: string = "multiple"
-  ) => {
+  ): Promise<Question[]> => {
     const response = await axios.get("https://opentdb.com/api.php", {
       params: {
-        categoryId,
+        category: categoryId,
         amount,
         difficulty,
         type,
       },
     });
-    return response.data;
+    return response.data.results;
   },
 };
 

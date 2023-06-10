@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text } from "react-native";
 import Button from "./Button";
 import { Question } from "../api/quizApi";
+import { decode } from "he";
 
 type Props = {
   question: Question;
@@ -15,32 +16,34 @@ export default function QuizQuestion({
   answer,
   onAnswerSelect,
   showCorrectAnswer,
-  disableSelect
+  disableSelect,
 }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.question_container}>
-        <Text style={styles.question}>{question.question}</Text>
+        <Text style={styles.question}>{decode(question.question)}</Text>
       </View>
       <View style={styles.answers_container}>
-        {question.answers.map((ans, index) => (
-          <Button
-            disabled={disableSelect}
-            key={index}
-            style={[
-              styles.answer,
-              ans.answer === answer ? styles.selected_answer : undefined,
-              ans.isCorrect && showCorrectAnswer
-                ? styles.correct_answer
-                : undefined,
-            ]}
-            onClick={() => onAnswerSelect(ans.answer)}
-          >
-            <Text style={{ fontWeight: "700", fontSize: 18 }}>
-              {index + 1}. {ans.answer}
-            </Text>
-          </Button>
-        ))}
+        {question.incorrect_answers
+          .concat(question.correct_answer)
+          .map((ans, index) => (
+            <Button
+              disabled={disableSelect}
+              key={index}
+              style={[
+                styles.answer,
+                ans === answer ? styles.selected_answer : undefined,
+                ans === question.correct_answer && showCorrectAnswer
+                  ? styles.correct_answer
+                  : undefined,
+              ]}
+              onClick={() => onAnswerSelect(ans)}
+            >
+              <Text style={{ fontWeight: "700", fontSize: 15 }}>
+                {index + 1}. {decode(ans)}
+              </Text>
+            </Button>
+          ))}
       </View>
     </View>
   );
@@ -66,8 +69,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   question: {
-    fontWeight: "700",
-    fontSize: 30,
+    fontSize: 24,
     textAlign: "center",
     fontFamily: "Gill Sans",
   },
