@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { QuizDifficulty } from "../api/quizApi";
+import { useState } from "react";
 
 type Props = {
   title: string;
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   image: {
     width: 120,
     height: 120,
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
   title: {
     fontWeight: "700",
