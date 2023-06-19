@@ -1,56 +1,64 @@
 import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
   View,
-  Image,
-  Alert,
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  ScrollView,
+  FlatList,
 } from "react-native";
-import Button from "../components/Button";
+import QuizCard from "../components/QuizCard";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../App";
 
-import { Ionicons } from "@expo/vector-icons";
+const cards = [
+  { title: "General", image: require("../../assets/general.png"), categoryId: 9 },
+  { title: "Sports", image: require("../../assets/sports.png"), categoryId: 21 },
+  { title: "Animals", image: require("../../assets/animals.png"), categoryId: 27 },
+  {
+    title: "Science",
+    image: require("../../assets/science_nature.png"),
+    categoryId: 17,
+  },
+  {
+    title: "Geography",
+    image: require("../../assets/geography.png"),
+    categoryId: 22,
+  },
+  {
+    title: "History",
+    image: require("../../assets/history.png"),
+    categoryId: 23,
+  },
+];
 
 export default function Home({
   navigation,
 }: NativeStackScreenProps<AppStackParamList>) {
-  const gotoQuizPage = () => {
-    navigation.navigate("QuizList");
-  };
-
   return (
     <SafeAreaView style={{ backgroundColor: "#9A78FF", flex: 1 }}>
-      <View style={styles.container}>
-        <Image
-          style={styles.app_image}
-          source={require("../../assets/question_mark.png")}
-        />
-
-        <View>
-          <Text style={styles.title}>
-            Qui<Text style={{ color: "#FFA78F" }}>ZZ</Text>at!
-          </Text>
-          <Text style={styles.description}>Intersting QUIZ awaits you!</Text>
+      {/* <ScrollView> */}
+        <View style={styles.container}>
+          <FlatList
+            style={{ width: "100%" }}
+            data={cards}
+            numColumns={2}
+            ListHeaderComponent={<Text style={styles.title}>Let's Play</Text>}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <QuizCard
+                title={item.title}
+                image={item.image}
+                questionsLength={10}
+                difficulty={"easy"}
+                onClick={() =>
+                  navigation.navigate("QuizPage", { categoryId: item.categoryId })
+                }
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
         </View>
-
-        <View style={styles.actions_container}>
-          <Button style={styles.play_action} onClick={gotoQuizPage}>
-            <Ionicons name="play" size={45} color="white" />
-          </Button>
-          <Button
-            style={styles.info_action}
-            onClick={() =>
-              Alert.alert(
-                "How To Play...",
-                "Answer all the quiz questions to win. simple as this XD!"
-              )
-            }
-          >
-            <Ionicons name="information-circle" size={45} color="white" />
-          </Button>
-        </View>
-      </View>
+      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
@@ -58,54 +66,28 @@ export default function Home({
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    gap: 10,
+    gap: 20,
     flex: 1,
     backgroundColor: "#9A78FF",
     alignItems: "center",
-    justifyContent: "space-around",
-    padding: 20,
-  },
-  app_image: {
-    flex: 1,
-    height: "100%",
+    justifyContent: "flex-start",
     width: "100%",
-    resizeMode: "contain",
+    padding: 20,
   },
   title: {
     color: "white",
     fontWeight: "700",
-    fontSize: 50,
+    fontSize: 30,
     textAlign: "center",
     marginBottom: 10,
-    fontFamily: "Gill Sans",
   },
-  description: {
-    color: "white",
-    fontSize: 20,
-    textAlign: "center",
-  },
-  actions_container: {
-    marginVertical: 20,
+  quiz_container: {
     display: "flex",
-    gap: 10,
+    flex: 2,
     flexDirection: "row",
-    textAlign: "center",
-  },
-  play_action: {
-    backgroundColor: "#FFA78F",
-    borderRadius: 10,
-    padding: 10,
-  },
-  info_action: {
-    backgroundColor: "#78D9FF",
-    borderRadius: 10,
-    padding: 10,
-  },
-  button: {
-    marginBottom: 30,
-    alignItems: "center",
-    backgroundColor: "#9A78FF",
-    padding: 20,
-    borderRadius: 4,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+    width: "100%",
   },
 });
