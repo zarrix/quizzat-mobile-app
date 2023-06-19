@@ -36,7 +36,7 @@ export default function Home({
 
         <View style={styles.actions_container}>
           <Button style={styles.play_action} onClick={gotoQuizPage}>
-            <Ionicons name="play" size={60} color="white" />
+            <Ionicons name="play" size={45} color="white" />
           </Button>
           <Button
             style={styles.info_action}
@@ -47,7 +47,7 @@ export default function Home({
               )
             }
           >
-            <Ionicons name="information-circle" size={60} color="white" />
+            <Ionicons name="information-circle" size={45} color="white" />
           </Button>
         </View>
       </View>
@@ -66,8 +66,10 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   app_image: {
-    height: 450,
-    width: 450,
+    flex: 1,
+    height: "100%",
+    width: "100%",
+    resizeMode: "contain",
   },
   title: {
     color: "white",
@@ -83,6 +85,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   actions_container: {
+    marginVertical: 20,
     display: "flex",
     gap: 10,
     flexDirection: "row",
@@ -100,7 +103,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 30,
-    width: 260,
     alignItems: "center",
     backgroundColor: "#9A78FF",
     padding: 20,

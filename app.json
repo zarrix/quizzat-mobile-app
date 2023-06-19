@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "quizzat-mobile-app",
+    "name": "Quizzat",
     "slug": "quizzat-mobile-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#9A78FF"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,11 +20,17 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#9A78FF"
+      },
+      "package": "com.zarrix.quizzat"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2d1e8643-d172-4a24-9993-b83ede9b34b4"
+      }
     }
   }
 }

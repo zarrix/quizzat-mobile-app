@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { QuizDifficulty } from "../api/quizApi";
-import { useState } from "react";
 
 type Props = {
   title: string;
@@ -25,33 +24,36 @@ export default function QuizCard({
   onClick,
 }: Props) {
   return (
-    <TouchableOpacity onPress={onClick}>
-      <View style={styles.container}>
-        <Image style={styles.image} source={image} />
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{questionsLength} questions</Text>
-        <Text>
-          level: <Text style={styles[difficulty]}>easy</Text>
-        </Text>
-      </View>
+    <TouchableOpacity style={styles.container} onPress={onClick}>
+      <Image style={styles.image} source={image} />
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{questionsLength} questions</Text>
+      <Text>
+        level: <Text style={styles[difficulty]}>easy</Text>
+      </Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
     backgroundColor: "white",
     display: "flex",
     flexDirection: "column",
-    maxHeight: 250,
     borderRadius: 10,
     padding: 20,
-    gap: 5,
+    gapRow: 5,
+    marginHorizontal: 5,
+    marginVertical: 10,
+    height: 250,
   },
   image: {
-    width: 120,
-    height: 120,
+    width: "80%",
+    height: "80%",
     resizeMode: "contain",
+    margin: "auto",
   },
   title: {
     fontWeight: "700",

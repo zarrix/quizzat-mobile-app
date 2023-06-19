@@ -3,12 +3,33 @@ import {
   StyleSheet,
   SafeAreaView,
   Text,
-  Alert,
   ScrollView,
+  FlatList,
 } from "react-native";
 import QuizCard from "../components/QuizCard";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppStackParamList } from "../../App";
+
+const cards = [
+  { title: "General", image: require("../../assets/general.png"), categoryId: 9 },
+  { title: "Sports", image: require("../../assets/sports.png"), categoryId: 21 },
+  { title: "Animals", image: require("../../assets/animals.png"), categoryId: 27 },
+  {
+    title: "Science",
+    image: require("../../assets/science_nature.png"),
+    categoryId: 17,
+  },
+  {
+    title: "Geography",
+    image: require("../../assets/geography.png"),
+    categoryId: 22,
+  },
+  {
+    title: "History",
+    image: require("../../assets/history.png"),
+    categoryId: 23,
+  },
+];
 
 export default function QuizList({
   navigation,
@@ -18,60 +39,23 @@ export default function QuizList({
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.title}>Let's Play</Text>
-          <View style={styles.quiz_container}>
-            <QuizCard
-              title={"General"}
-              image={require("../../assets/general.png")}
-              questionsLength={10}
-              difficulty={"easy"}
-              onClick={() => navigation.navigate("QuizPage", { categoryId: 9 })}
-            />
-            <QuizCard
-              title={"Sports"}
-              image={require("../../assets/sports.png")}
-              questionsLength={10}
-              difficulty={"easy"}
-              onClick={() =>
-                navigation.navigate("QuizPage", { categoryId: 21 })
-              }
-            />
-            <QuizCard
-              title={"Animals"}
-              image={require("../../assets/animals.png")}
-              questionsLength={10}
-              difficulty={"easy"}
-              onClick={() =>
-                navigation.navigate("QuizPage", { categoryId: 27 })
-              }
-            />
-            <QuizCard
-              title={"Science"}
-              image={require("../../assets/science_nature.png")}
-              questionsLength={10}
-              difficulty={"easy"}
-              onClick={() =>
-                navigation.navigate("QuizPage", { categoryId: 17 })
-              }
-            />
-            <QuizCard
-              title={"Geography"}
-              image={require("../../assets/geography.png")}
-              questionsLength={10}
-              difficulty={"easy"}
-              onClick={() =>
-                navigation.navigate("QuizPage", { categoryId: 22 })
-              }
-            />
-            <QuizCard
-              title={"History"}
-              image={require("../../assets/history.png")}
-              questionsLength={10}
-              difficulty={"easy"}
-              onClick={() =>
-                navigation.navigate("QuizPage", { categoryId: 23 })
-              }
-            />
-          </View>
+          <FlatList
+            style={{ width: "100%" }}
+            data={cards}
+            numColumns={2}
+            renderItem={({ item }) => (
+              <QuizCard
+                title={item.title}
+                image={item.image}
+                questionsLength={10}
+                difficulty={"easy"}
+                onClick={() =>
+                  navigation.navigate("QuizPage", { categoryId: item.categoryId })
+                }
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -98,11 +82,10 @@ const styles = StyleSheet.create({
   },
   quiz_container: {
     display: "flex",
-    columnGap: 10,
-    rowGap: 20,
+    flex: 2,
     flexDirection: "row",
     alignItems: "flex-start",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     flexWrap: "wrap",
     width: "100%",
   },
