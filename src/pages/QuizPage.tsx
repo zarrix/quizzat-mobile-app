@@ -35,7 +35,7 @@ export default function QuizPage({
       setShouldShowAnswer(false);
     } else if (level === questions.length - 1) {
       Alert.alert("Bravo!", `You scored ${(score / questions.length) * 100}%`, [
-        { text: "OK", onPress: () => navigation.navigate("QuizList") },
+        { text: "OK", onPress: () => navigation.navigate("Home") },
       ]);
     }
   };
@@ -84,7 +84,7 @@ export default function QuizPage({
               onClick={checkAnswer}
             >
               <Text style={styles.action_title}>Check</Text>
-              <Ionicons name="information-circle" size={40} color="white" />
+              <Ionicons name="information-circle" size={30} color="white" />
             </Button>
           ) : (
             <Button
@@ -92,7 +92,7 @@ export default function QuizPage({
               onClick={goToNextQuestion}
             >
               <Text style={styles.action_title}>Next</Text>
-              <Ionicons name="arrow-forward" size={40} color="white" />
+              <Ionicons name="arrow-forward" size={30} color="white" />
             </Button>
           )}
         </View>
@@ -117,16 +117,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: "center",
     marginBottom: 10,
-  },
-  quiz_container: {
-    minHeight: "30%",
-    width: "100%",
-    display: "flex",
-    backgroundColor: "white",
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
   },
   quiz_question: {
     fontWeight: "700",
@@ -171,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFA78F",
   },
   action_title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     color: "white",
   },

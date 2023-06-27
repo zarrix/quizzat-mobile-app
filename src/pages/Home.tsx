@@ -36,7 +36,6 @@ export default function Home({
 }: NativeStackScreenProps<AppStackParamList>) {
   return (
     <SafeAreaView style={{ backgroundColor: "#9A78FF", flex: 1 }}>
-      {/* <ScrollView> */}
         <View style={styles.container}>
           <FlatList
             style={{ width: "100%" }}
@@ -58,7 +57,6 @@ export default function Home({
             keyExtractor={(item, index) => index.toString()}
           />
         </View>
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
